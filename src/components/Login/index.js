@@ -3,9 +3,9 @@ import { Text, TextInput, TouchableOpacity, View, SafeAreaView, Pressable, Keybo
 import { useNavigation } from '@react-navigation/native';
 import * as env from '../../environments/';
 import * as SecureStore from 'expo-secure-store';
-
+import MaskInput from 'react-native-mask-input';
 import styles from './styles';
-
+const cpfmask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.',/\d/, /\d/, /\d/,'-', /\d/, /\d/];
 
 export default function Login(props) {
   const navigation = useNavigation(); 
@@ -13,8 +13,54 @@ export default function Login(props) {
   const [password, setPassword] = useState(null);
   const [error, setError] = useState(false);
  
-  async function login(){
-    navigation.navigate('Inicio');
+  async function setToken(data, data2, data3){
+    //console.log(data3);
+    SecureStore.deleteItemAsync('token');
+    SecureStore.deleteItemAsync('escritorio');
+    SecureStore.deleteItemAsync('administrador');
+    SecureStore.deleteItemAsync('gestor');
+    SecureStore.deleteItemAsync('relatorios');
+    await SecureStore.setItemAsync('token',data);
+    await SecureStore.setItemAsync('escritorio',data2+``);
+    await SecureStore.setItemAsync('administrador',data3.administrador+``);
+    await SecureStore.setItemAsync('gestor',data3.gestor+``);
+    await SecureStore.setItemAsync('relatorios',data3.relatorios+``);
+  }
+
+  async function login(){    
+    if(usuario && password){
+      fetch(env.default.url+'login',{
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          usuario: usuario,
+          password: password
+        })
+      }).then((response) => response.json())
+      .then((json) => {     
+        //console.log(json);
+        if(json.token){
+          setError(false);
+          
+          setToken(json.token, json.escritorio, json.user.perfil).then(
+            () => {
+              navigation.navigate('Inicio');
+            }
+          )        
+          //console.log(json);        
+        }else{
+          //console.log(json);
+          setError(true);
+        }     
+      })
+      .catch((error) => {
+        //console.error(error);
+      }); 
+    }
+    
   }
 
   return (
@@ -27,13 +73,16 @@ export default function Login(props) {
         </View>
         <Pressable  style={styles.containerForm}  onPress={Keyboard.dismiss}>
                       
-            <TextInput 
-              style={styles.input} 
-              placeholder="CPF" 
-              keyboardType="number-pad"
-              onChangeText={setUsuario} 
-              value={usuario} 
-            />
+        <MaskInput 
+                  style={styles.input} 
+                  
+                  mask={cpfmask} 
+                  value={usuario}
+                  keyboardType="number-pad"                
+                  onChangeText={(masked, unmasked, obfuscated) => {
+                    setUsuario(unmasked); // you can use the masked value as well
+                  }}
+                  />        
             
             
             <TextInput 
@@ -52,6 +101,7 @@ export default function Login(props) {
             }
           
             <TouchableOpacity 
+                    disabled={!usuario && !password}
                     style={styles.button}     
                     onPress={()=> login()}           
                     >

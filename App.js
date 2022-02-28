@@ -4,11 +4,24 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StyleSheet, Platform } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import Cadastrese from './src/components/Cadastrese/';
 import Inicio from './src/components/Inicio/';
 import Login from './src/components/Login/';
 import Menu from './src/components/Menu/';
+
+import Clientes from './src/components/Clientes/';
+import CadastrarCliente from './src/components/Clientes/Cadastrar/';
+import EditarCliente from './src/components/Clientes/Editar/';
+
+import Escritorios from './src/components/Escritorios/';
+import CadastrarEscritorio from './src/components/Escritorios/Cadastrar/';
+import EditarEscritorio from './src/components/Escritorios/Editar/';
+
+import Usuarios from './src/components/Usuarios/';
+import CadastrarUsuario from './src/components/Usuarios/Cadastrar/';
+import EditarUsuario from './src/components/Usuarios/Editar/';
 
 
 const Stack = createStackNavigator();
@@ -50,10 +63,22 @@ export default function App() {
           <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name="Login"  component={Login}  />
             <Stack.Screen name="Inicio" component={Tabs}  />   
-            <Stack.Screen name="Cadastre-se"  component={Cadastrese}  />                 
+            <Stack.Screen name="Cadastre-se"  component={Cadastrese}  />    
+
+            <Stack.Screen name="Clientes"  component={Clientes}  />  
+            <Stack.Screen name="Cadastrar Cliente"  component={CadastrarCliente}  />  
+            <Stack.Screen name="Editar Cliente"  component={EditarCliente}  /> 
+            
+            <Stack.Screen name="Escritorios"  component={Escritorios}  />  
+            <Stack.Screen name="Cadastrar Escritorio"  component={CadastrarEscritorio}  />  
+            <Stack.Screen name="Editar Escritorio"  component={EditarEscritorio}  />  
+            
+            <Stack.Screen name="Usuarios"  component={Usuarios}  />    
+            <Stack.Screen name="Cadastrar Usuario"  component={CadastrarUsuario}  />  
+            <Stack.Screen name="Editar Usuario"  component={EditarUsuario}  />                 
           </Stack.Navigator>
         </NavigationContainer>  
-      
+        <Toast style={styles.toast} />
     </Fragment>  
   );
 }
@@ -70,5 +95,8 @@ const styles = StyleSheet.create({
   },
   bar:{
     backgroundColor: '#E1E2E1',
-  }
+  },
+  toast: {
+    fontSize: 50,
+  },
 });

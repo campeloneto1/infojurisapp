@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
       marginTop: 50,       
       height: '45%',
       width: '90%', 
+      maxWidth: 500,
       alignItems: 'center',
       backgroundColor: '#E1E2E1',
       borderTopLeftRadius: 30,
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
       fontSize: 20,
    },
    erroLogin:{
-      color: "#b71c1c",
+      color: "#611215",
       fontWeight: 'bold',
       fontSize: 15,
    }

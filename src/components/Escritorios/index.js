@@ -8,21 +8,21 @@ import { useNavigation } from '@react-navigation/native';
 import Itens from './Itens/';
 import styles from './styles';
 
-export default function Usuarios() {
+export default function Escritorios() {
   const navigation = useNavigation(); 
-  const [usuarios, setUsuarios] = useState([]);
+  const [escritorios, setEscritorios] = useState([]);
 
   useFocusEffect(
     React.useCallback(() => {
-      getUsuarios();
+      getEscritorios();
       
     }, [])
   );
 
-  async function getUsuarios(){
+  async function getEscritorios(){
     let result = await  SecureStore.getItemAsync('token');    
 
-    fetch(env.default.url+'usuarios',{
+    fetch(env.default.url+'escritorios',{
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -32,7 +32,7 @@ export default function Usuarios() {
     }).then((response) => response.json())
     .then((json) => {                   
       if(json){
-        setUsuarios(json);        
+        setEscritorios(json);        
       }else{
         
       }     
@@ -47,7 +47,7 @@ export default function Usuarios() {
   return (
     <SafeAreaView style={styles.container}>       
         <View style={styles.containerTitle}>  
-            <Text style={styles.title}>Usuários</Text> 
+            <Text style={styles.title}>Escritórios</Text> 
             <Pressable style={styles.voltar} onPress={() => {navigation.navigate('Menu')}}>
               <MaterialCommunityIcons size={35} name="arrow-left" color = {'white'}   />
             </Pressable> 
@@ -55,20 +55,21 @@ export default function Usuarios() {
         <View style={styles.containerBody}>
        
           <FlatList style={styles.list}
-              data={usuarios}
+              data={escritorios}
               renderItem={({item})=>{
                 return <Itens 
-                  getusuarios={getUsuarios}
+                  getescritorios={getEscritorios}
                   nome={item.nome}    
-                  cpf={item.cpf}  
-                  telefone1={item.telefone1}                            
+                  cnpj={item.cnpj}  
+                  telefone1={item.telefone1}   
+                  gestor={item.gestor}                            
                   id={item.id} 
                   
                   />
             }}
             />
             <TouchableOpacity  
-                onPress={()=> navigation.navigate('Cadastrar Usuario')} 
+                onPress={()=> navigation.navigate('Cadastrar Escritorio')} 
                 style={styles.btncadastrar}
             >
               <MaterialCommunityIcons size={50} name="plus" color = {'white'} style={styles.cadastrar}  />

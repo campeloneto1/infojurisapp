@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
       left: 10,
     },
     containerBody:{
+      maxWidth: 500,
       width: '100%',    
       height: '90%',
       position: 'absolute',

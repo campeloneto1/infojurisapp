@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     },
     voltar: {
       position: 'absolute',
-      top: 5,
+      top: 80,
       left: 10,
     },
     containerBody:{
@@ -55,7 +55,48 @@ const styles = StyleSheet.create({
       right: 25,
       
     },
+    containerForms: {
+        marginTop: 20,
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+      },
+    input:{
+        width: "70%",
+        backgroundColor: "#E1E2E1",
+        textAlign: 'center',
+        height:50,
+        margin: 12,
+        
+        borderBottomWidth: 1,
+        borderColor: "#611215",
+     },
+
+     button:{
+        marginTop: 50,
+        backgroundColor: '#611215',
+        width: '90%',
+        paddingTop: 14,
+        paddingBottom: 14,
+        borderRadius: 50,
+        alignItems: "center",
+        justifyContent: "center",
     
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+    
+        elevation: 8,
+     },
+     textButton:{
+        color: "#ffffff",
+        fontWeight: 'bold',
+        fontSize: 20,
+     },
 });
 
 export default styles;
