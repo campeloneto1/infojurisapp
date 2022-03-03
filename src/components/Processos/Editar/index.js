@@ -12,7 +12,7 @@ const cpfmask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.',/\d/, /\d/, /\d/, 
 const cellMask = ['(',/\d/, /\d/,') ', /\d/, ' ', /\d/, /\d/, /\d/,/\d/,'-', /\d/, /\d/, /\d/, /\d/];
 const dtMask = [ /\d/, /\d/,'/', /\d/,/\d/,'/', /\d/, /\d/, /\d/, /\d/];
 
-export default function EditarEscritorio({route}) {
+export default function EditarProcesso({route}) {
   const navigation = useNavigation(); 
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');

@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     },   
     info3: {
         marginRight: 5,
-        fontSize: 16,
+        fontSize: 14,
         color: '#000000',
         fontWeight: 'bold',
     },

@@ -5,14 +5,15 @@ import { useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as SecureStore from 'expo-secure-store';
 import * as env from '../../../environments/';
+import Moment from 'moment';
 
 export default function Itens(props) {
     const navigation = useNavigation(); 
 
-    async function deleteesc(id, nome){
+    async function deleteesc(id, codigo){
         Alert.alert(
             "Excluir Usuário",
-            "Tem certeza que deseja excluir o cliente "+nome+"?",           
+            "Tem certeza que deseja excluir o processo "+codigo+"?",           
             [
                 {
                     text: "Cancelar",
@@ -57,7 +58,7 @@ export default function Itens(props) {
 
     return (
         <Pressable  
-            onPress={()=> navigation.navigate('Editar Cliente',
+            onPress={()=> navigation.navigate('Editar Processo',
                 {
                     id: props.id,
                 })
@@ -66,7 +67,7 @@ export default function Itens(props) {
         >
             
                 <View style={styles.titleContent}>
-                    <Text style={styles.info2}>{props.nome}</Text>
+                    <Text style={styles.info2}>{props.autor}</Text>
 
                 </View>
                 <View style={styles.infoContent}>
@@ -74,20 +75,26 @@ export default function Itens(props) {
                     <View style={styles.contextLeft}>
                         <View style={styles.boxInfo}>
                             <Text style={styles.info1}>
-                                CPF: {props.cpf}                                
+                                Cod.: {props.codigo}                                
                             </Text>
                             <Text style={styles.info1}>                                
-                                Mãe: {props.mae}
+                                Nat.: {props.natureza}
+                            </Text>
+                            <Text style={styles.info1}>                                
+                                Vara: {props.vara}
                             </Text>
                         </View>
                     </View>
-                    <View style={styles.contextRight}>                        
-                            <Text style={styles.info3}>Tel.: {props.telefone1}</Text>
-                       
-                            <Pressable style={styles.btndel} onPress={()=> {deleteesc(props.id, props.nome)}} >
+                    <View style={styles.contextRight}>       
+                            <Text style={styles.info3}>{Moment(props.data).format('DD/MM/YYYY')}</Text>                 
+                            <Text style={styles.info3}>R$ {props.valor}</Text>
+                            {props.status == 1 && (
+                            <Text style={styles.info3}>Em andamento</Text>
+                            )}
+                            <Pressable style={styles.btndel} onPress={()=> {deleteesc(props.id, props.codigo)}} >
                                 <MaterialCommunityIcons size={20}  color = {'#611215'} name="delete"   />
                             </Pressable>
-
+                            
                     </View>
                 </View>
             

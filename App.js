@@ -19,6 +19,10 @@ import Escritorios from './src/components/Escritorios/';
 import CadastrarEscritorio from './src/components/Escritorios/Cadastrar/';
 import EditarEscritorio from './src/components/Escritorios/Editar/';
 
+import Processos from './src/components/Processos/';
+import CadastrarProcesso from './src/components/Processos/Cadastrar/';
+import EditarProcesso from './src/components/Processos/Editar/';
+
 import Usuarios from './src/components/Usuarios/';
 import CadastrarUsuario from './src/components/Usuarios/Cadastrar/';
 import EditarUsuario from './src/components/Usuarios/Editar/';
@@ -72,6 +76,10 @@ export default function App() {
             <Stack.Screen name="Escritorios"  component={Escritorios}  />  
             <Stack.Screen name="Cadastrar Escritorio"  component={CadastrarEscritorio}  />  
             <Stack.Screen name="Editar Escritorio"  component={EditarEscritorio}  />  
+
+            <Stack.Screen name="Processos"  component={Processos}  />  
+            <Stack.Screen name="Cadastrar Processo"  component={CadastrarProcesso}  />  
+            <Stack.Screen name="Editar Processo"  component={EditarProcesso}  />  
             
             <Stack.Screen name="Usuarios"  component={Usuarios}  />    
             <Stack.Screen name="Cadastrar Usuario"  component={CadastrarUsuario}  />  

@@ -56,21 +56,25 @@ export default function Processos() {
         <View style={styles.containerBody}>
        
           <FlatList style={styles.list}
-              data={clientes}
+              data={processos}
               renderItem={({item})=>{
                 return <Itens 
-                  getclientes={getClientes}
-                  nome={item.nome}    
-                  cpf={item.cpf}  
-                  telefone1={item.telefone1}   
-                  mae={item.mae}                            
+                  getprocessos={getProcessos}
+                  autor={item.autor.nome}    
+                  reu={item.reu.nome}    
+                  codigo={item.codigo}  
+                  valor={item.valor}   
+                  natureza={item.natureza.nome}
+                  vara={item.vara.nome}
+                  data={item.data}
+                  status={item.status}
                   id={item.id} 
                   
                   />
             }}
             />
             <TouchableOpacity  
-                onPress={()=> navigation.navigate('Cadastrar Cliente')} 
+                onPress={()=> navigation.navigate('Cadastrar Processo')} 
                 style={styles.btncadastrar}
             >
               <MaterialCommunityIcons size={50} name="plus" color = {'white'} style={styles.cadastrar}  />

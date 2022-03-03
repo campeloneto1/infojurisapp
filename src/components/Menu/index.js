@@ -45,7 +45,10 @@ export default function Menu() {
                   <Text style={styles.textmenu}>Escritórios</Text>
                 </TouchableOpacity>
               )}
-                <TouchableOpacity style={styles.menu}>
+                <TouchableOpacity 
+                style={styles.menu}
+                onPress={() => {navigation.navigate('Processos');}}
+                >
                   <Text style={styles.textmenu}>Processos</Text>
                 </TouchableOpacity>
               {gestor == '1' && (      
