@@ -19,8 +19,45 @@ export default function Cadastrese() {
   const [escritorio, setEscritorio] = useState(null);
   const [cnpj, setCnpj] = useState(null);
 
-  async function cadastrese(){
-
+  async function cadastrese(){  
+    
+    fetch(env.default.url+'cadastrese',{
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+result
+      },
+      body: JSON.stringify({
+        nome: nome,
+        cpf: cpf,
+        telefone1: telefone,
+        email: email,
+        escritorio: escritorio,
+        cnpj: cnpj,
+      })
+    }).then((response) => response.json())
+    .then((json) => {     
+      //console.log(json);
+      if(json){
+        //console.log(json);
+        if(json == 1){
+          Toast.show({
+            type: 'success',
+            text1: 'Cadastro realizado',
+            text2: 'Usuário cadastrado com sucesso.',
+            autoHide: true,
+            visibilityTime: 2000
+          });
+          clear();
+        }
+      }else{
+        //console.log(json);
+      }     
+    })
+    .catch((error) => {
+      //console.error(error);
+    });
   }
 
   return (

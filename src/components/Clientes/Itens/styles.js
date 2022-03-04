@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     infoContent: {
+        marginTop: 10,
         width: '100%',
         height: 'auto',
         flexDirection: 'row',
@@ -76,6 +77,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'absolute',
+        right: 2,
 
         
     },

@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StyleSheet, Platform } from 'react-native';
+import { MenuProvider } from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
 
 import Cadastrese from './src/components/Cadastrese/';
@@ -18,6 +19,8 @@ import EditarCliente from './src/components/Clientes/Editar/';
 import Escritorios from './src/components/Escritorios/';
 import CadastrarEscritorio from './src/components/Escritorios/Cadastrar/';
 import EditarEscritorio from './src/components/Escritorios/Editar/';
+
+import Processo from './src/components/Processo/';
 
 import Processos from './src/components/Processos/';
 import CadastrarProcesso from './src/components/Processos/Cadastrar/';
@@ -64,32 +67,37 @@ function Tabs(){
 
 export default function App() {
   return (
-    <Fragment>
-        <NavigationContainer >
-          <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Login"  component={Login}  />
-            <Stack.Screen name="Inicio" component={Tabs}  />   
-            <Stack.Screen name="Cadastre-se"  component={Cadastrese}  />    
+    <MenuProvider>
+        <Fragment>
+          <NavigationContainer >
+            <Stack.Navigator screenOptions={{headerShown: false}}>
+              <Stack.Screen name="Login"  component={Login}  />
+              <Stack.Screen name="Inicio" component={Tabs}  />   
+              <Stack.Screen name="Cadastre-se"  component={Cadastrese}  />    
 
-            <Stack.Screen name="Clientes"  component={Clientes}  />  
-            <Stack.Screen name="Cadastrar Cliente"  component={CadastrarCliente}  />  
-            <Stack.Screen name="Editar Cliente"  component={EditarCliente}  /> 
-            
-            <Stack.Screen name="Escritorios"  component={Escritorios}  />  
-            <Stack.Screen name="Cadastrar Escritorio"  component={CadastrarEscritorio}  />  
-            <Stack.Screen name="Editar Escritorio"  component={EditarEscritorio}  />  
+              <Stack.Screen name="Clientes"  component={Clientes}  />  
+              <Stack.Screen name="Cadastrar Cliente"  component={CadastrarCliente}  />  
+              <Stack.Screen name="Editar Cliente"  component={EditarCliente}  /> 
+              
+              <Stack.Screen name="Escritorios"  component={Escritorios}  />  
+              <Stack.Screen name="Cadastrar Escritorio"  component={CadastrarEscritorio}  />  
+              <Stack.Screen name="Editar Escritorio"  component={EditarEscritorio}  />  
 
-            <Stack.Screen name="Processos"  component={Processos}  />  
-            <Stack.Screen name="Cadastrar Processo"  component={CadastrarProcesso}  />  
-            <Stack.Screen name="Editar Processo"  component={EditarProcesso}  />  
-            
-            <Stack.Screen name="Usuarios"  component={Usuarios}  />    
-            <Stack.Screen name="Cadastrar Usuario"  component={CadastrarUsuario}  />  
-            <Stack.Screen name="Editar Usuario"  component={EditarUsuario}  />                 
-          </Stack.Navigator>
-        </NavigationContainer>  
-        <Toast style={styles.toast} />
-    </Fragment>  
+              <Stack.Screen name="Processo"  component={Processo}  />  
+
+              <Stack.Screen name="Processos"  component={Processos}  />  
+              <Stack.Screen name="Cadastrar Processo"  component={CadastrarProcesso}  />  
+              <Stack.Screen name="Editar Processo"  component={EditarProcesso}  />  
+              
+              <Stack.Screen name="Usuarios"  component={Usuarios}  />    
+              <Stack.Screen name="Cadastrar Usuario"  component={CadastrarUsuario}  />  
+              <Stack.Screen name="Editar Usuario"  component={EditarUsuario}  />                 
+            </Stack.Navigator>
+          </NavigationContainer>  
+          <Toast style={styles.toast} />
+      </Fragment> 
+    </MenuProvider>
+     
   );
 }
 

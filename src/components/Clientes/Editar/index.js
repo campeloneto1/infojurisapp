@@ -14,11 +14,11 @@ const cellMask = ['(',/\d/, /\d/,') ', /\d/, ' ', /\d/, /\d/, /\d/,/\d/,'-', /\d
 const dtMask = [ /\d/, /\d/,'/', /\d/,/\d/,'/', /\d/, /\d/, /\d/, /\d/,'*'];
 
 const estadoscivis = [
-  { label: 'Solteiro', value: '1' },
-  { label: 'Casado', value: '2' },
-  { label: 'Divorciado', value: '3' },
-  { label: 'Viuvo', value: '4' },
-  { label: 'União Estável', value: '5' },
+  { nome: 'Solteiro', id: '1' },
+  { nome: 'Casado', id: '2' },
+  { nome: 'Divorciado', id: '3' },
+  { nome: 'Viuvo', id: '4' },
+  { nome: 'União Estável', id: '5' },
 ];
 
 export default function EditarEscritorio({route}) {
@@ -253,11 +253,11 @@ export default function EditarEscritorio({route}) {
                     value={estadocivil}
                     search
                     searchPlaceholder="Pesquisar..."
-                    labelField="label"
-                    valueField="value"                    
+                    labelField="nome"
+                    valueField="id"                  
                     placeholder="Estado Civil"
                     onChange={item => {
-                      setEstadocivil(item.value);
+                      setEstadocivil(item.id);
                      }}
                     
                     textError="Error"

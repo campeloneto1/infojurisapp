@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Text, View, SafeAreaView,FlatList, TouchableOpacity, Pressable } from 'react-native';
+import { Text, View, SafeAreaView,FlatList, TouchableOpacity, Pressable, TextInput } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as SecureStore from 'expo-secure-store';
@@ -11,6 +11,8 @@ import styles from './styles';
 export default function Processos() {
   const navigation = useNavigation(); 
   const [processos, setProcessos] = useState([]);
+  const [filteredData, setFilteredData] = useState([]); 
+  const [search, setSearch] = useState();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -33,7 +35,8 @@ export default function Processos() {
     .then((json) => {   
       //console.log(json)                
       if(json){
-        setProcessos(json);        
+        setProcessos(json);    
+        setFilteredData(json);    
       }else{
         
       }     
@@ -45,6 +48,24 @@ export default function Processos() {
     
   }
 
+  async function filtrar(text){   
+    if (text) {
+      const newData = processos.filter(
+        function (item) {
+          if (item.codigo) {
+            const itemData2 = item.autor.nome.toUpperCase();
+            const textData = text.toUpperCase();
+            return item.codigo.indexOf(text) > -1 || itemData2.indexOf(textData) > -1;
+          }
+      });
+      setFilteredData(newData);
+      setSearch(text);
+    } else {
+      setFilteredData(processos);
+      setSearch(text);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>       
         <View style={styles.containerTitle}>  
@@ -54,9 +75,17 @@ export default function Processos() {
             </Pressable> 
         </View> 
         <View style={styles.containerBody}>
-       
-          <FlatList style={styles.list}
-              data={processos}
+          <View style={styles.containerSearch}>
+              <TextInput 
+                      style={styles.input} 
+                      value={search}
+                      placeholder="Pesquisar..." 
+                      keyboardType="default"
+                      onChangeText={text =>  filtrar(text) }
+                    />
+            </View>
+            <FlatList style={styles.list}
+              data={filteredData}
               renderItem={({item})=>{
                 return <Itens 
                   getprocessos={getProcessos}

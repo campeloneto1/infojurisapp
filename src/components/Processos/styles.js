@@ -45,9 +45,8 @@ const styles = StyleSheet.create({
       elevation: 8,
     },    
     list:{
-      paddingTop: 40,
-      borderTopRightRadius: 50,
-      borderTopLeftRadius: 50,
+      paddingTop: 10,
+
     },
     btncadastrar: {
       borderRadius: 50,
@@ -57,6 +56,19 @@ const styles = StyleSheet.create({
       right: 25,
       
     },
+    containerSearch: {
+      marginTop: 10,
+      width: '100%',     
+      alignItems: 'center',      
+    },
+    input:{
+      width: "70%",
+      backgroundColor: "#E1E2E1",
+      textAlign: 'center',
+      height:50,
+      borderBottomWidth: 1,
+      borderColor: "#611215",
+   },
     
 });
 

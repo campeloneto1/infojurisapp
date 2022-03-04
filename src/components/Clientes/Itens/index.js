@@ -3,6 +3,12 @@ import { View, Text, Pressable, Alert } from "react-native";
 import styles from "./styles";
 import { useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+  } from 'react-native-popup-menu';
 import * as SecureStore from 'expo-secure-store';
 import * as env from '../../../environments/';
 
@@ -57,7 +63,7 @@ export default function Itens(props) {
 
     return (
         <Pressable  
-            onPress={()=> navigation.navigate('Editar Cliente',
+            onPress={()=> navigation.navigate('Visualizar Cliente',
                 {
                     id: props.id,
                 })
@@ -67,6 +73,19 @@ export default function Itens(props) {
             
                 <View style={styles.titleContent}>
                     <Text style={styles.info2}>{props.nome}</Text>
+                    <Menu style={styles.btndel}>
+                        <MenuTrigger >
+                            <MaterialCommunityIcons size={25}  color = {'#611215'} name="dots-vertical"   />
+                        </MenuTrigger>
+                        <MenuOptions>
+                            <MenuOption onSelect={() => navigation.navigate('Editar Cliente', { id: props.id, })} >
+                                <Text style={{color: '#000000', fontSize: 20,}}>Editar</Text>
+                            </MenuOption>
+                            <MenuOption onSelect={() => {deleteesc(props.id, props.nome)}} >
+                                <Text style={{color: '#611215', fontSize: 20,}}>Excluir</Text>
+                            </MenuOption>                            
+                        </MenuOptions>
+                    </Menu> 
 
                 </View>
                 <View style={styles.infoContent}>
@@ -84,9 +103,7 @@ export default function Itens(props) {
                     <View style={styles.contextRight}>                        
                             <Text style={styles.info3}>Tel.: {props.telefone1}</Text>
                        
-                            <Pressable style={styles.btndel} onPress={()=> {deleteesc(props.id, props.nome)}} >
-                                <MaterialCommunityIcons size={20}  color = {'#611215'} name="delete"   />
-                            </Pressable>
+                            
 
                     </View>
                 </View>
