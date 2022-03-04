@@ -171,7 +171,7 @@ export default function EditarUsuario({route}) {
       
 
                 <TouchableOpacity 
-                      disabled={!name && !cpf && !telefone && !email}
+                      disabled={!name || !cpf || !telefone || !email}
                       style={styles.button}     
                       onPress={()=> cadastrar()}   
                       >

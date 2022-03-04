@@ -46,6 +46,8 @@ function Tabs(){
             ), }}
         /> 
 
+      
+
       <Tab.Screen 
         name="Menu" 
         component={Menu} 

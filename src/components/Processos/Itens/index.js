@@ -31,7 +31,7 @@ export default function Itens(props) {
     async function confirmdel(id){
         let result = await  SecureStore.getItemAsync('token');    
     
-        fetch(env.default.url+'clientes/'+id,{
+        fetch(env.default.url+'processos/'+id,{
           method: 'DELETE',
           headers: {
             Accept: 'application/json',
@@ -41,8 +41,8 @@ export default function Itens(props) {
         }).then((response) => response.json())
         .then((json) => {             
           //console.log(json);  
-          if(json){
-            props.getclientes();
+          if(json == 1){
+            props.getprocessos();
             
             //console.log(json);
           }else{
@@ -93,6 +93,9 @@ export default function Itens(props) {
                             )}
                             <Pressable style={styles.btndel} onPress={()=> {deleteesc(props.id, props.codigo)}} >
                                 <MaterialCommunityIcons size={20}  color = {'#611215'} name="delete"   />
+                            </Pressable>
+                            <Pressable style={styles.btnedit} onPress={()=> {navigation.navigate('Editar Processo',{ id: props.id })}} >
+                                <MaterialCommunityIcons size={20}  color = {'#611215'} name="square-edit-outline"   />
                             </Pressable>
                             
                     </View>

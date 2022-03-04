@@ -4,27 +4,44 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useNavigation } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import MaskInput from 'react-native-mask-input';
+import { Dropdown } from 'react-native-element-dropdown';
 import * as SecureStore from 'expo-secure-store';
 import * as env from '../../../environments/';
 import Toast from 'react-native-toast-message';
 import styles from './styles';
-const cpfmask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.',/\d/, /\d/, /\d/, '-', /\d/, /\d/];
-const cellMask = ['(',/\d/, /\d/,') ', /\d/, ' ', /\d/, /\d/, /\d/,/\d/,'-', /\d/, /\d/, /\d/, /\d/];
-const dtMask = [ /\d/, /\d/,'/', /\d/,/\d/,'/', /\d/, /\d/, /\d/, /\d/];
+const cpfmask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.',/\d/, /\d/, /\d/, '-', /\d/, /\d/,'*'];
+const cellMask = ['(',/\d/, /\d/,') ', /\d/, ' ', /\d/, /\d/, /\d/,/\d/,'-', /\d/, /\d/, /\d/, /\d/,'*'];
+const dtMask = [ /\d/, /\d/,'/', /\d/,/\d/,'/', /\d/, /\d/, /\d/, /\d/,'*'];
+
+const estadoscivis = [
+  { label: 'Solteiro', value: '1' },
+  { label: 'Casado', value: '2' },
+  { label: 'Divorciado', value: '3' },
+  { label: 'Viuvo', value: '4' },
+  { label: 'União Estável', value: '5' },
+];
 
 export default function EditarEscritorio({route}) {
   const navigation = useNavigation(); 
-  const [name, setName] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [email, setEmail] = useState('');
-  const [dtnasc, setDtnasc] = useState('');
-  const [mae, setMae] = useState('');
-  const [cliente, setCliente] = useState('');
+
+  const [ocupacoes, setOcupacoes] = useState([]);
+
+  const [cliente, setCliente] = useState();
+
+  const [name, setName] = useState();
+  const [cpf, setCpf] = useState();
+  const [telefone, setTelefone] = useState();
+  const [email, setEmail] = useState();
+  const [dtnasc, setDtnasc] = useState();
+  const [mae, setMae] = useState();
+  const [pai, setPai] = useState();
+  const [ocupacao, setOcupacao] = useState();
+  const [estadocivil, setEstadocivil] = useState();
   
   useFocusEffect(
     React.useCallback(() => {
       getCliente();
+      getOcupacoes();
       clear();   
       
     }, [])
@@ -37,6 +54,9 @@ export default function EditarEscritorio({route}) {
     setEmail(null);
     setMae(null); 
     setDtnasc(null); 
+    setPai(null); 
+    setOcupacao(null); 
+    setEstadocivil(null); 
       
   }
 
@@ -55,14 +75,17 @@ export default function EditarEscritorio({route}) {
     }).then((response) => response.json())
     .then((json) => {                
       if(json){        
-        //console.log(json);
+        //console.log(json.estado_civil);
         setName(json.nome);
         setCliente(json.id);
         setCpf(json.cpf);
         setTelefone(json.telefone1);
         setEmail(json.email);
-        setDtnasc(json.data_nascimento);
+        setDtnasc(json.data_nascimento.substr(8,2)+json.data_nascimento.substr(5,2)+json.data_nascimento.substr(0,4));
         setMae(json.mae);
+        setPai(json.pai);
+        setEstadocivil(json.estado_civil);
+        setOcupacao(json.ocupacao_id);
       }else{
         //console.log(json);
       }     
@@ -72,10 +95,32 @@ export default function EditarEscritorio({route}) {
     });    
   }
 
+  async function getOcupacoes(){
+    let result = await  SecureStore.getItemAsync('token');    
+
+    fetch(env.default.url+'ocupacoes',{
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+result
+      }
+    }).then((response) => response.json())
+    .then((json) => {   
+      //console.log(json)                
+      if(json){
+        setOcupacoes(json);        
+      }else{
+        
+      }     
+    })
+    .catch((error) => {
+      
+    });
+  }
 
   async function cadastrar(){
-    let escri = await  SecureStore.getItemAsync('escritorio');   
-    //console.log(checkbox);
+
     let result = await  SecureStore.getItemAsync('token');    
     
       fetch(env.default.url+'clientes',{
@@ -90,15 +135,18 @@ export default function EditarEscritorio({route}) {
           cpf: cpf,
           telefone1: telefone,
           email: email,
-          data_nascimento: dtnasc,
+          data_nascimento: dtnasc.substr(4,4)+'-'+dtnasc.substr(2,2)+'-'+dtnasc.substr(0,2),
           mae: mae,
+          pai: pai,
+          estado_civil: estadocivil,
+          ocupacao_id: ocupacao,
           id: cliente,
         })
       }).then((response) => response.json())
       .then((json) => {     
         //console.log(json);
         if(json){
-          //console.log(json);
+          console.log(json);
           if(json == 1){
             Toast.show({
               type: 'success',
@@ -115,11 +163,10 @@ export default function EditarEscritorio({route}) {
       })
       .catch((error) => {
         //console.error(error);
-      });
-    
-     
-   
+      });  
+
   }
+
   return (
     <SafeAreaView style={styles.container} onPress={Keyboard.dismiss}>       
         <View style={styles.containerTitle}>  
@@ -139,7 +186,7 @@ export default function EditarEscritorio({route}) {
             <TextInput 
                 style={styles.input} 
                 value={name}
-                placeholder="Nome" 
+                placeholder="Nome*" 
                 keyboardType="default"
                 onChangeText={text => setName(text)}
               />   
@@ -168,7 +215,7 @@ export default function EditarEscritorio({route}) {
                 <TextInput 
                 style={styles.input} 
                 value={email}
-                placeholder="E-mail" 
+                placeholder="E-mail*" 
                 keyboardType="email-address"
                 onChangeText={text => setEmail(text)}
                 /> 
@@ -186,13 +233,57 @@ export default function EditarEscritorio({route}) {
                 <TextInput 
                 style={styles.input} 
                 value={mae}
-                placeholder="Mãe" 
+                placeholder="Mãe*" 
                 keyboardType="default"
                 onChangeText={text => setMae(text)}
                 />  
+
+                <TextInput 
+                style={styles.input} 
+                value={pai}
+                placeholder="Pai" 
+                keyboardType="default"
+                onChangeText={text => setPai(text)}
+                /> 
+
+                <Dropdown
+                    style={styles.input}
+                    containerStyle={styles.input}
+                    data={estadoscivis}
+                    value={estadocivil}
+                    search
+                    searchPlaceholder="Pesquisar..."
+                    labelField="label"
+                    valueField="value"                    
+                    placeholder="Estado Civil"
+                    onChange={item => {
+                      setEstadocivil(item.value);
+                     }}
+                    
+                    textError="Error"
+                />
+
+                {Object.keys(ocupacoes).length > 0  &&                         
+                  <Dropdown
+                    style={styles.input}
+                    containerStyle={styles.input}
+                    data={ocupacoes}
+                    value={ocupacao}
+                    search
+                    searchPlaceholder="Pesquisar..."
+                    labelField="nome"
+                    valueField="id"                    
+                    placeholder="Ocupação"
+                    onChange={item => {
+                      setOcupacao(item.id);
+                     }}
+                    
+                    textError="Error"
+                />
+                } 
       
                 <TouchableOpacity 
-                      disabled={!name && !cpf && !telefone && !email && !dtnasc && !mae}
+                      disabled={!name || !cpf || !telefone || !email || !dtnasc || !mae }
                       style={styles.button}     
                       onPress={()=> cadastrar()}   
                       >

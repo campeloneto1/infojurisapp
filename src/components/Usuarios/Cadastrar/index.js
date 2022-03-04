@@ -140,7 +140,7 @@ export default function CadastrarUsuario() {
       
 
                 <TouchableOpacity 
-                      disabled={!name && !cpf && !telefone && !email}
+                      disabled={!name || !cpf || !telefone || !email}
                       style={styles.button}     
                       onPress={()=> cadastrar()}   
                       >

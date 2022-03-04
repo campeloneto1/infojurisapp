@@ -46,6 +46,8 @@ const styles = StyleSheet.create({
     },    
     list:{
       paddingTop: 40,
+      borderTopRightRadius: 50,
+      borderTopLeftRadius: 50,
     },
     btncadastrar: {
       borderRadius: 50,

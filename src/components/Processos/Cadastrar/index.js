@@ -16,8 +16,8 @@ const cellMask = ['(',/\d/, /\d/,') ', /\d/, ' ', /\d/, /\d/, /\d/,/\d/,'-', /\d
 const dtMask = [ /\d/, /\d/,'/', /\d/,/\d/,'/', /\d/, /\d/, /\d/, /\d/];
 const moneyMask = createNumberMask({
   prefix: ['R', '$', ' '],
-  delimiter: '.',
-  separator: ',',
+  delimiter: ' ',
+  separator: '.',
   precision: 2,
 })
 
@@ -30,19 +30,19 @@ export default function CadastrarProcesso() {
   const [comarcas, setComarcas] = useState([]);
   const [varas, setVaras] = useState([]);
 
-  const [codigo, setCodigo] = useState(null);
+  const [codigo, setCodigo] = useState();
 
-  const [autor, setAutor] = useState(null);
-  const [reu, setReu] = useState(null);
+  const [autor, setAutor] = useState();
+  const [reu, setReu] = useState();
 
-  const [valor, setValor] = useState(null);
-  const [natureza, setNatureza] = useState(null);
+  const [valor, setValor] = useState();
+  const [natureza, setNatureza] = useState();
 
-  const [tribunal, setTribunal] = useState(null);
-  const [comarca, setComarca] = useState(null);
-  const [vara, setVara] = useState(null);
+  const [tribunal, setTribunal] = useState();
+  const [comarca, setComarca] = useState();
+  const [vara, setVara] = useState();
 
-  const [obs, setObs] = useState(null);
+  const [obs, setObs] = useState();
 
 
   
@@ -56,6 +56,9 @@ export default function CadastrarProcesso() {
   );
 
   function clear(){
+    setComarcas([]);
+    setVaras([]);
+    
     setCodigo(null);
     setAutor(null);
     setReu(null);
@@ -193,11 +196,12 @@ export default function CadastrarProcesso() {
 
 
   async function cadastrar(){  
-    //console.log(checkbox);
+    var valor2 = valor.substr(0, valor.length - 2)+'.'+valor.substr(valor.length - 2, 2);
+    
     let esc = await  SecureStore.getItemAsync('escritorio');   
     let result = await  SecureStore.getItemAsync('token');    
     
-      fetch(env.default.url+'clientes',{
+      fetch(env.default.url+'processos',{
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -208,7 +212,7 @@ export default function CadastrarProcesso() {
           codigo: codigo,
           autor: autor,
           reu: reu,
-          valor: valor,
+          valor: valor2,
           natureza_id: natureza,
           vara_id: vara,
           obs: obs,
@@ -224,7 +228,7 @@ export default function CadastrarProcesso() {
             Toast.show({
               type: 'success',
               text1: 'Cadastro realizado',
-              text2: 'Cliente cadastrado com sucesso.',
+              text2: 'Processo cadastrado com sucesso.',
               autoHide: true,
               visibilityTime: 2000
             });
@@ -242,7 +246,7 @@ export default function CadastrarProcesso() {
   return (
     <SafeAreaView style={styles.container} onPress={Keyboard.dismiss}>       
         <View style={styles.containerTitle}>  
-            <Text style={styles.title}>Cadastrar Cliente</Text> 
+            <Text style={styles.title}>Cadastrar Processo</Text> 
         </View> 
         <TouchableOpacity  
                 onPress={()=> navigation.navigate('Processos')} 
@@ -310,6 +314,7 @@ export default function CadastrarProcesso() {
                 value={valor}
                 keyboardType="numeric"                
                 onChangeText={(masked, unmasked, obfuscated) => {
+                  
                   setValor(unmasked); // you can use the masked value as well
                 }}
                 />    
@@ -402,7 +407,7 @@ export default function CadastrarProcesso() {
                 
 
                 <TouchableOpacity 
-                      disabled={!codigo && !autor && !reu && !valor && !natureza && !tribunais && !comarca && !vara}
+                      disabled={!codigo || !autor || !reu || !valor || !natureza || !tribunais || !comarca || !vara}
                       style={styles.button}     
                       onPress={()=> cadastrar()}   
                       >

@@ -101,7 +101,7 @@ export default function Login(props) {
             }
           
             <TouchableOpacity 
-                    disabled={!usuario && !password}
+                    disabled={!usuario || !password}
                     style={styles.button}     
                     onPress={()=> login()}           
                     >

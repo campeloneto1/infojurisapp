@@ -60,12 +60,12 @@ export default function Processos() {
               renderItem={({item})=>{
                 return <Itens 
                   getprocessos={getProcessos}
-                  autor={item.autor.nome}    
-                  reu={item.reu.nome}    
+                  autor={item.autor?.nome}    
+                  reu={item.reu?.nome}    
                   codigo={item.codigo}  
                   valor={item.valor}   
-                  natureza={item.natureza.nome}
-                  vara={item.vara.nome}
+                  natureza={item.natureza?.nome}
+                  vara={item.vara?.nome}
                   data={item.data}
                   status={item.status}
                   id={item.id} 
