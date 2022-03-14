@@ -30,6 +30,13 @@ export default function Menu() {
           <Text style={styles.title}>Menu</Text> 
 
           <View style={styles.containerMenus}>
+
+              <TouchableOpacity style={styles.menu}>
+                <Text 
+                style={styles.textmenu}
+                onPress={() => {navigation.navigate('Audiencias');}}
+                >Audiencias</Text>
+              </TouchableOpacity>
                       
               <TouchableOpacity style={styles.menu}>
                 <Text 
@@ -37,6 +44,7 @@ export default function Menu() {
                 onPress={() => {navigation.navigate('Clientes');}}
                 >Clientes</Text>
               </TouchableOpacity>
+
               {administrador == '1' && (      
                 <TouchableOpacity 
                 style={styles.menu}
@@ -45,12 +53,14 @@ export default function Menu() {
                   <Text style={styles.textmenu}>Escritórios</Text>
                 </TouchableOpacity>
               )}
+
               <TouchableOpacity 
               style={styles.menu}
               onPress={() => {navigation.navigate('Processos');}}
               >
                 <Text style={styles.textmenu}>Processos</Text>
               </TouchableOpacity>
+
               {gestor == '1' && (      
                 <TouchableOpacity 
                 style={styles.menu}

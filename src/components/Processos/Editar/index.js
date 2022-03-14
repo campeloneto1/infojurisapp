@@ -21,7 +21,7 @@ const moneyMask = createNumberMask({
   precision: 2,
 })
 
-export default function CadastrarProcesso({route}) {
+export default function EditarProcesso({route}) {
   const navigation = useNavigation(); 
 
   const [clientes, setClientes] = useState([]);

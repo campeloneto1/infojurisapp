@@ -12,6 +12,12 @@ import Inicio from './src/components/Inicio/';
 import Login from './src/components/Login/';
 import Menu from './src/components/Menu/';
 
+import Audiencias from './src/components/Audiencias/';
+import CadastrarAudiencia from './src/components/Audiencias/Cadastrar/';
+import EditarAudiencia from './src/components/Audiencias/Editar/';
+
+import Calendario from './src/components/Calendario/';
+
 import Clientes from './src/components/Clientes/';
 import CadastrarCliente from './src/components/Clientes/Cadastrar/';
 import EditarCliente from './src/components/Clientes/Editar/';
@@ -49,6 +55,15 @@ function Tabs(){
             ), }}
         /> 
 
+      <Tab.Screen 
+        name="Calendário" 
+        component={Calendario} 
+        options={{ 
+          headerShown: false, 
+          tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons size={20} style={styles.icon} name="calendar-month-outline"  />
+            ), }}
+        /> 
       
 
       <Tab.Screen 
@@ -73,7 +88,13 @@ export default function App() {
             <Stack.Navigator screenOptions={{headerShown: false}}>
               <Stack.Screen name="Login"  component={Login}  />
               <Stack.Screen name="Inicio" component={Tabs}  />   
-              <Stack.Screen name="Cadastre-se"  component={Cadastrese}  />    
+              <Stack.Screen name="Cadastre-se"  component={Cadastrese}  />
+              
+              <Stack.Screen name="Audiencias"  component={Audiencias}  />  
+              <Stack.Screen name="Cadastrar Audiencia"  component={CadastrarAudiencia}  />  
+              <Stack.Screen name="Editar Audiencia"  component={EditarAudiencia}  />  
+
+              <Stack.Screen name="Calendario"  component={Calendario}  />   
 
               <Stack.Screen name="Clientes"  component={Clientes}  />  
               <Stack.Screen name="Cadastrar Cliente"  component={CadastrarCliente}  />  
