@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Text, View, SafeAreaView, Pressable,FlatList } from 'react-native';
+import { Text, View, SafeAreaView, Pressable,FlatList,Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as SecureStore from 'expo-secure-store';
@@ -26,6 +26,8 @@ export default function Processo({route}) {
   const navigation = useNavigation(); 
 
   const [processo, setProcesso] = useState([]);
+  const [pessoa, setPessoa] = useState([]);
+  const [modal, setModal] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -58,6 +60,12 @@ export default function Processo({route}) {
     .catch((error) => {
       
     });    
+  }
+
+  async function showPessoa(data){
+    setModal(true);
+    setPessoa(data);
+    //console.log(pessoa);
   }
 
   return (
@@ -104,21 +112,29 @@ export default function Processo({route}) {
 
             </View>
 
-            <View style={styles.containerText6}>
+            <View 
+            style={styles.containerText6}
+            >
 
-              <View style={styles.containerText3}>
+              <Pressable 
+                onPress={() => {showPessoa(processo.autor)}}
+                style={styles.containerText3}
+              >
                 <Text style={styles.label}>Autor</Text>
                 <Text style={styles.textlabel}>{processo.autor?.nome}</Text>
                 <Text style={styles.textlabel}>{processo.autor?.cpf}</Text>
                 <Text style={styles.textlabel}>{processo.autor?.telefone1}</Text>
-              </View>
+              </Pressable>
 
-              <View style={styles.containerText31}>
+              <Pressable 
+                onPress={() => {showPessoa(processo.reu)}}
+                style={styles.containerText31}
+              >
                 <Text style={styles.label}>Réu</Text>
                 <Text style={styles.textlabel}>{processo.reu?.nome}</Text>
                 <Text style={styles.textlabel}>{processo.reu?.cpf}</Text>
                 <Text style={styles.textlabel}>{processo.reu?.telefone1}</Text>
-              </View>
+              </Pressable>
 
             </View>
             <View style={styles.containerText5}>
@@ -142,6 +158,90 @@ export default function Processo({route}) {
 
           </View>        
         </View>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modal}         
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.titleModal}>{pessoa.nome}</Text>
+
+              <View style={styles.containerTextModal}>
+                <View style={styles.containerText2Modal}>
+                  <Text style={styles.labelModal}>CPF</Text>
+                  <Text >{pessoa.cpf}</Text>
+                </View>
+                
+                <View style={styles.containerText2Modal}>
+                  <Text style={styles.labelModal}>Data Nascimento</Text>
+                  <Text >{pessoa.data_nascimento}</Text>
+                </View>
+              </View>
+              <View style={styles.containerTextModal}>                
+                <View style={styles.containerText2Modal}>
+                  <Text style={styles.labelModal}>Telefone</Text>
+                  <Text >{pessoa.telefone1}</Text>
+                </View>
+                <View style={styles.containerText2Modal}>
+                  <Text style={styles.labelModal}>E-mail</Text>
+                  <Text >{pessoa.email}</Text>
+                </View>
+              </View>
+              <View style={styles.containerTextModal}>                
+                <View style={styles.containerText2Modal}>
+                  <Text style={styles.labelModal}>Mãe</Text>
+                  <Text >{pessoa.mae}</Text>
+                </View>
+                <View style={styles.containerText2Modal}>
+                  <Text style={styles.labelModal}>Pai</Text>
+                  <Text >{pessoa.pai}</Text>
+                </View>
+              </View>
+              <View style={styles.containerTextModal}>                
+                <View style={styles.containerText2Modal}>
+                  <Text style={styles.labelModal}>Est. Civil</Text>
+                  {pessoa.estado_civil == 1 && (
+                    <Text >Solteiro(a)</Text>
+                  )}
+                  {pessoa.estado_civil == 2 && (
+                    <Text >Casado(a)</Text>
+                  )}
+                  {pessoa.estado_civil == 3 && (
+                    <Text >Divorciado(a)</Text>
+                  )}
+                  {pessoa.estado_civil == 4 && (
+                    <Text >Viuvo(a)</Text>
+                  )}
+                  {pessoa.estado_civil == 5 && (
+                    <Text >União Estável</Text>
+                  )}
+                </View>
+                <View style={styles.containerText2Modal}>
+                  <Text style={styles.labelModal}>Ocupação</Text>
+                  <Text >{pessoa.ocupacao?.nome}</Text>
+                </View>
+              </View>
+
+              {pessoa.rua && (
+                <View style={styles.containerTextModal2}>
+                  <View >
+                    <Text style={styles.labelModal}>Endereço</Text>
+                    <Text >{pessoa.rua}, {pessoa.numero}, {pessoa.complemento}, {pessoa.bairro}, {pessoa.cidade?.nome} - {pessoa.estado?.uf}</Text>
+                  </View>
+                </View>
+              )}
+
+              <Pressable
+                
+                onPress={() => setModal(!modal)}
+              >
+                <Text style={styles.modalClose}>Fechar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
         
     </SafeAreaView>
   );

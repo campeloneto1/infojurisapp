@@ -80,6 +80,7 @@ export default function Calendario() {
   }
 
   async function changeMonth(month, year){    
+    //setAudiencias([]);
     let result = await  SecureStore.getItemAsync('token');    
     
     fetch(env.default.url+'audiencias/'+month+'/'+year+'/calendario',{
@@ -144,27 +145,27 @@ export default function Calendario() {
         </View> 
         <View style={styles.containerBody}>
        
+        
+          <Calendar 
+          theme={{
 
-        <Calendar 
-         theme={{
-
-          selectedDayBackgroundColor: '#00adf5',
-          selectedDayTextColor: '#ffffff',
-          todayTextColor: '#00adf5',
-          dayTextColor: '#2d4150',
-         
-        }}
-          markedDates={
-            datas
-          }         
-          onDayPress={day => {
-            getAudiencias(day);
+            selectedDayBackgroundColor: '#00adf5',
+            selectedDayTextColor: '#ffffff',
+            todayTextColor: '#00adf5',
+            dayTextColor: '#2d4150',
+          
           }}
-          onMonthChange={month => {
-            changeMonth(month.month, month.year);
-          }}
-        />
-
+            markedDates={
+              Object.keys(datas).length ? datas : null
+            }         
+            onDayPress={day => {
+              getAudiencias(day);
+            }}
+            onMonthChange={month => {
+              changeMonth(month.month, month.year);
+            }}
+          />
+       
         <FlatList style={styles.list}
               data={audiencias}
               renderItem={({item})=>{

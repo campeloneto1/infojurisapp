@@ -24,6 +24,9 @@ export default function CadastrarAudiencia() {
   const navigation = useNavigation(); 
 
   const [processos, setProcessos] = useState([]);
+  const [cidades, setCidades] = useState([]);
+  const [estados, setEstados] = useState([]);
+  const [paises, setPaises] = useState([]);
 
   const [processo, setProcesso] = useState(null);
   const [data, setData] = useState(null);
@@ -32,12 +35,20 @@ export default function CadastrarAudiencia() {
   const [link, setLink] = useState(null);
   const [obs, setObs] = useState(null);
 
+  const [rua, setRua] = useState();
+  const [numero, setNumero] = useState();
+  const [complemento, setComplemento] = useState();
+  const [bairro, setBairro] = useState();
+  const [cidade, setCidade] = useState();
+  const [estado, setEstado] = useState();
+  const [pais, setPais] = useState();
 
-  
   useFocusEffect(
     React.useCallback(() => {
       clear();   
       getProcessos();
+      getPaises();
+      getEstados(1);
     }, [])
   );
 
@@ -47,6 +58,14 @@ export default function CadastrarAudiencia() {
     setHora(null);
     setTipo(null);
     setLink(null);
+
+    setRua(null); 
+    setNumero(null); 
+    setComplemento(null); 
+    setBairro(null); 
+    setCidade(null); 
+    setEstado(null); 
+    setPais(null); 
   }
 
   async function getProcessos(){
@@ -64,6 +83,78 @@ export default function CadastrarAudiencia() {
       //console.log(json)                
       if(json){
         setProcessos(json);        
+      }else{
+        
+      }     
+    })
+    .catch((error) => {
+      
+    });
+  }
+
+  async function getPaises(){
+    let result = await  SecureStore.getItemAsync('token');    
+
+    fetch(env.default.url+'paises',{
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+result
+      }
+    }).then((response) => response.json())
+    .then((json) => {   
+      //console.log(json)                
+      if(json){
+        setPaises(json);        
+      }else{
+        
+      }     
+    })
+    .catch((error) => {
+      
+    });
+  }
+
+  async function getEstados(id){
+    let result = await  SecureStore.getItemAsync('token');    
+
+    fetch(env.default.url+'estados/'+id+'/where',{
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+result
+      }
+    }).then((response) => response.json())
+    .then((json) => {   
+      //console.log(json)                
+      if(json){
+        setEstados(json);        
+      }else{
+        
+      }     
+    })
+    .catch((error) => {
+      
+    });
+  }
+
+  async function getCidades(id){
+    let result = await  SecureStore.getItemAsync('token');    
+
+    fetch(env.default.url+'cidades/'+id+'/where',{
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+result
+      }
+    }).then((response) => response.json())
+    .then((json) => {   
+      //console.log(json)                
+      if(json){
+        setCidades(json);        
       }else{
         
       }     
@@ -92,6 +183,14 @@ export default function CadastrarAudiencia() {
           tipo_id: tipo,
           link: link,
           obs: obs,
+
+          rua: rua,
+          numero: numero,
+          complemento: complemento,
+          bairro: bairro,
+          cidade_id: cidade,
+          estado_id: estado,
+          pais_id: pais,
          
         })
       }).then((response) => response.json())
@@ -202,6 +301,97 @@ export default function CadastrarAudiencia() {
                 onChangeText={text => setLink(text)}
               /> 
               }
+
+              <TextInput 
+                style={styles.input} 
+                value={rua}
+                placeholder="Rua" 
+                keyboardType="default"
+                onChangeText={text => setRua(text)}
+                />
+
+                <TextInput 
+                style={styles.input} 
+                value={numero}
+                placeholder="Número" 
+                keyboardType="default"
+                onChangeText={text => setNumero(text)}
+                />
+
+              <TextInput 
+                style={styles.input} 
+                value={complemento}
+                placeholder="Complemento" 
+                keyboardType="default"
+                onChangeText={text => setComplemento(text)}
+                />
+
+                <TextInput 
+                style={styles.input} 
+                value={bairro}
+                placeholder="Bairro" 
+                keyboardType="default"
+                onChangeText={text => setBairro(text)}
+                />
+
+                {Object.keys(paises).length > 0  &&                         
+                  <Dropdown
+                    style={styles.input}
+                    containerStyle={styles.input}
+                    data={paises}
+                    value={pais}
+                    search
+                    searchPlaceholder="Pesquisar..."
+                    labelField="nome"
+                    valueField="id"                    
+                    placeholder="País"
+                    onChange={item => {
+                      setPais(item.id);
+                      getEstados(item.id);
+                     }}
+                    
+                    textError="Error"
+                />
+                }    
+
+                {Object.keys(estados).length > 0  &&                         
+                  <Dropdown
+                    style={styles.input}
+                    containerStyle={styles.input}
+                    data={estados}
+                    value={estado}
+                    search
+                    searchPlaceholder="Pesquisar..."
+                    labelField="nome"
+                    valueField="id"                    
+                    placeholder="Estado"
+                    onChange={item => {
+                      setEstado(item.id);
+                      getCidades(item.id);
+                     }}
+                    
+                    textError="Error"
+                />
+                }      
+
+                {Object.keys(cidades).length > 0  &&                         
+                  <Dropdown
+                    style={styles.input}
+                    containerStyle={styles.input}
+                    data={cidades}
+                    value={cidade}
+                    search
+                    searchPlaceholder="Pesquisar..."
+                    labelField="nome"
+                    valueField="id"                    
+                    placeholder="Cidade"
+                    onChange={item => {
+                      setCidade(item.id);
+                     }}
+                    
+                    textError="Error"
+                />
+                }     
 
               <TextInput 
                 style={styles.input} 

@@ -14,17 +14,20 @@ const cellMask = ['(',/\d/, /\d/,') ', /\d/, ' ', /\d/, /\d/, /\d/,/\d/,'-', /\d
 const dtMask = [ /\d/, /\d/,'/', /\d/,/\d/,'/', /\d/, /\d/, /\d/, /\d/,'*'];
 
 const estadoscivis = [
-  { nome: 'Solteiro', id: '1' },
-  { nome: 'Casado', id: '2' },
-  { nome: 'Divorciado', id: '3' },
-  { nome: 'Viuvo', id: '4' },
-  { nome: 'União Estável', id: '5' },
+  { nome: 'Solteiro', id: 1 },
+  { nome: 'Casado', id: 2 },
+  { nome: 'Divorciado', id: 3 },
+  { nome: 'Viuvo', id: 4 },
+  { nome: 'União Estável', id: 5 },
 ];
 
 export default function EditarEscritorio({route}) {
   const navigation = useNavigation(); 
 
   const [ocupacoes, setOcupacoes] = useState([]);
+  const [cidades, setCidades] = useState([]);
+  const [estados, setEstados] = useState([]);
+  const [paises, setPaises] = useState([]);
 
   const [cliente, setCliente] = useState();
 
@@ -37,9 +40,18 @@ export default function EditarEscritorio({route}) {
   const [pai, setPai] = useState();
   const [ocupacao, setOcupacao] = useState();
   const [estadocivil, setEstadocivil] = useState();
+
+  const [rua, setRua] = useState();
+  const [numero, setNumero] = useState();
+  const [complemento, setComplemento] = useState();
+  const [bairro, setBairro] = useState();
+  const [cidade, setCidade] = useState();
+  const [estado, setEstado] = useState();
+  const [pais, setPais] = useState();
   
   useFocusEffect(
     React.useCallback(() => {
+      getPaises(1); 
       getCliente();
       getOcupacoes();
       clear();   
@@ -58,6 +70,13 @@ export default function EditarEscritorio({route}) {
     setOcupacao(null); 
     setEstadocivil(null); 
       
+    setRua(null); 
+    setNumero(null); 
+    setComplemento(null); 
+    setBairro(null); 
+    setCidade(null); 
+    setEstado(null); 
+    setPais(null); 
   }
 
   async function getCliente(){
@@ -76,6 +95,10 @@ export default function EditarEscritorio({route}) {
     .then((json) => {                
       if(json){        
         //console.log(json.estado_civil);
+        
+        getEstados(json.pais_id);
+        getCidades(json.estado_id);
+        
         setName(json.nome);
         setCliente(json.id);
         setCpf(json.cpf);
@@ -86,6 +109,14 @@ export default function EditarEscritorio({route}) {
         setPai(json.pai);
         setEstadocivil(json.estado_civil);
         setOcupacao(json.ocupacao_id);
+
+        setRua(json.rua); 
+        setNumero(json.numero); 
+        setComplemento(json.complemento); 
+        setBairro(json.bairro); 
+        setCidade(json.cidade_id); 
+        setEstado(json.estado_id); 
+        setPais(json.pais_id); 
       }else{
         //console.log(json);
       }     
@@ -93,6 +124,78 @@ export default function EditarEscritorio({route}) {
     .catch((error) => {
       
     });    
+  }
+
+  async function getPaises(){
+    let result = await  SecureStore.getItemAsync('token');    
+
+    fetch(env.default.url+'paises',{
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+result
+      }
+    }).then((response) => response.json())
+    .then((json) => {   
+      //console.log(json)                
+      if(json){
+        setPaises(json);        
+      }else{
+        
+      }     
+    })
+    .catch((error) => {
+      
+    });
+  }
+
+  async function getEstados(id){
+    let result = await  SecureStore.getItemAsync('token');    
+
+    fetch(env.default.url+'estados/'+id+'/where',{
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+result
+      }
+    }).then((response) => response.json())
+    .then((json) => {   
+      //console.log(json)                
+      if(json){
+        setEstados(json);        
+      }else{
+        
+      }     
+    })
+    .catch((error) => {
+      
+    });
+  }
+
+  async function getCidades(id){
+    let result = await  SecureStore.getItemAsync('token');    
+
+    fetch(env.default.url+'cidades/'+id+'/where',{
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+result
+      }
+    }).then((response) => response.json())
+    .then((json) => {   
+      //console.log(json)                
+      if(json){
+        setCidades(json);        
+      }else{
+        
+      }     
+    })
+    .catch((error) => {
+      
+    });
   }
 
   async function getOcupacoes(){
@@ -141,6 +244,14 @@ export default function EditarEscritorio({route}) {
           estado_civil: estadocivil,
           ocupacao_id: ocupacao,
           id: cliente,
+
+          rua: rua,
+          numero: numero,
+          complemento: complemento,
+          bairro: bairro,
+          cidade_id: cidade,
+          estado_id: estado,
+          pais_id: pais,
         })
       }).then((response) => response.json())
       .then((json) => {     
@@ -276,6 +387,97 @@ export default function EditarEscritorio({route}) {
                     placeholder="Ocupação"
                     onChange={item => {
                       setOcupacao(item.id);
+                     }}
+                    
+                    textError="Error"
+                />
+                } 
+
+                <TextInput 
+                style={styles.input} 
+                value={rua}
+                placeholder="Rua" 
+                keyboardType="default"
+                onChangeText={text => setRua(text)}
+                />
+
+                <TextInput 
+                style={styles.input} 
+                value={numero}
+                placeholder="Número" 
+                keyboardType="default"
+                onChangeText={text => setNumero(text)}
+                />
+
+              <TextInput 
+                style={styles.input} 
+                value={complemento}
+                placeholder="Complemento" 
+                keyboardType="default"
+                onChangeText={text => setComplemento(text)}
+                />
+
+                <TextInput 
+                style={styles.input} 
+                value={bairro}
+                placeholder="Bairro" 
+                keyboardType="default"
+                onChangeText={text => setBairro(text)}
+                />
+
+                {Object.keys(paises).length > 0  &&                         
+                  <Dropdown
+                    style={styles.input}
+                    containerStyle={styles.input}
+                    data={paises}
+                    value={pais}
+                    search
+                    searchPlaceholder="Pesquisar..."
+                    labelField="nome"
+                    valueField="id"                    
+                    placeholder="País"
+                    onChange={item => {
+                      setPais(item.id);
+                      getEstados(item.id);
+                     }}
+                    
+                    textError="Error"
+                />
+                }    
+
+                {Object.keys(estados).length > 0  &&                         
+                  <Dropdown
+                    style={styles.input}
+                    containerStyle={styles.input}
+                    data={estados}
+                    value={estado}
+                    search
+                    searchPlaceholder="Pesquisar..."
+                    labelField="nome"
+                    valueField="id"                    
+                    placeholder="Estado"
+                    onChange={item => {
+                      setEstado(item.id);
+                      getCidades(item.id);
+                     }}
+                    
+                    textError="Error"
+                />
+                }      
+
+                {Object.keys(cidades).length > 0  &&                         
+                  <Dropdown
+                    style={styles.input}
+                    containerStyle={styles.input}
+                    data={cidades}
+                    value={cidade}
+                    search
+                    searchPlaceholder="Pesquisar..."
+                    labelField="nome"
+                    valueField="id"                    
+                    placeholder="Cidade"
+                    onChange={item => {
+                      setCidade(item.id);
                      }}
                     
                     textError="Error"

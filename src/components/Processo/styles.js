@@ -92,6 +92,71 @@ const styles = StyleSheet.create({
     textlabel:{
       fontSize: 15,
     },
+
+    centeredView: {      
+      marginTop: '50%'
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5
+    },
+    button: {
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2
+    },
+    
+    modalClose: {
+      color: "#611215",
+      fontWeight: "bold",
+      textAlign: "center",
+      marginTop: 30
+    },
+    containerTextModal: {
+      marginTop: 10, 
+      width: '100%',
+      justifyContent: 'space-evenly',
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+
+    },
+    containerTextModal2: {
+      marginTop: 10, 
+      width: '100%',
+      justifyContent: 'flex-start',
+      marginLeft: 10,
+
+    },
+    containerText2Modal: {
+      width: '45%',
+
+    },
+    titleModal: {
+      color: "#611215",
+      fontWeight: "bold",
+      marginBottom: 15,
+      textAlign: "center",
+      fontSize: 20,
+    },
+    labelModal: {
+      color: "#611215",
+      fontWeight: "bold",      
+      fontSize: 15,
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: "center"
+    },
 });
 
 export default styles;
