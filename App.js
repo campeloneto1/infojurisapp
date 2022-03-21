@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StyleSheet, Platform } from 'react-native';
@@ -32,12 +32,16 @@ import Processos from './src/components/Processos/';
 import CadastrarProcesso from './src/components/Processos/Cadastrar/';
 import EditarProcesso from './src/components/Processos/Editar/';
 
+import Tribunais from './src/components/Tribunais/';
+import CadastrarTribunal from './src/components/Tribunais/Cadastrar/';
+import EditarTribunal from './src/components/Tribunais/Editar/';
+
 import Usuarios from './src/components/Usuarios/';
 import CadastrarUsuario from './src/components/Usuarios/Cadastrar/';
 import EditarUsuario from './src/components/Usuarios/Editar/';
 
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator ();
 const Tab = createBottomTabNavigator();
 
 function Tabs(){
@@ -108,7 +112,11 @@ export default function App() {
 
               <Stack.Screen name="Processos"  component={Processos}  />  
               <Stack.Screen name="Cadastrar Processo"  component={CadastrarProcesso}  />  
-              <Stack.Screen name="Editar Processo"  component={EditarProcesso}  />  
+              <Stack.Screen name="Editar Processo"  component={EditarProcesso}  /> 
+
+              <Stack.Screen name="Tribunais"  component={Tribunais}  />  
+              <Stack.Screen name="Cadastrar Tribunal"  component={CadastrarTribunal}  />  
+              <Stack.Screen name="Editar Tribunal"  component={EditarTribunal}  />  
               
               <Stack.Screen name="Usuarios"  component={Usuarios}  />    
               <Stack.Screen name="Cadastrar Usuario"  component={CadastrarUsuario}  />  

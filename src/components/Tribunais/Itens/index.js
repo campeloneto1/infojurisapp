@@ -17,8 +17,8 @@ export default function Itens(props) {
 
     async function deleteusu(id, nome){
         Alert.alert(
-            "Excluir Usuário",
-            "Tem certeza que deseja excluir o usuário "+nome+"?",           
+            "Excluir Tribunal",
+            "Tem certeza que deseja excluir o tribunal "+nome+"?",           
             [
                 {
                     text: "Cancelar",
@@ -36,7 +36,7 @@ export default function Itens(props) {
     async function confirmdel(id){
         let result = await  SecureStore.getItemAsync('token');    
     
-        fetch(env.default.url+'usuarios/'+id,{
+        fetch(env.default.url+'tribunais/'+id,{
           method: 'DELETE',
           headers: {
             Accept: 'application/json',
@@ -47,7 +47,7 @@ export default function Itens(props) {
         .then((json) => {             
           //console.log(json);  
           if(json){
-            props.getusuarios();
+            props.gettribunais();
             
             //console.log(json);
           }else{
@@ -73,7 +73,7 @@ export default function Itens(props) {
                             <MaterialCommunityIcons size={25}  color = {'#611215'} name="dots-vertical"   />
                         </MenuTrigger>
                         <MenuOptions>
-                            <MenuOption onSelect={() => navigation.navigate('Editar Usuario', { id: props.id, })}>
+                            <MenuOption onSelect={() => navigation.navigate('Editar Tribunal', { id: props.id, })}>
                             <Text style={{color: '#000000', fontSize: 20,}}>Editar</Text>
                             </MenuOption>   
                             <MenuOption onSelect={() => {deleteusu(props.id, props.nome)}} >
@@ -86,9 +86,7 @@ export default function Itens(props) {
 
                     <View style={styles.contextLeft}>
                         <View style={styles.boxInfo}>
-                            <Text style={styles.info1}>
-                                CPF: {props.cpf}                                
-                            </Text>
+                            
                             <Text style={styles.info1}>                                
                                 Tel.: {props.telefone1}
                             </Text>

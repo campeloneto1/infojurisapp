@@ -61,6 +61,15 @@ export default function Menu() {
                 <Text style={styles.textmenu}>Processos</Text>
               </TouchableOpacity>
 
+              {administrador == '1' && (      
+                <TouchableOpacity 
+                style={styles.menu}
+                onPress={() => {navigation.navigate('Tribunais');}}
+                >
+                  <Text style={styles.textmenu}>Tribunais</Text>
+                </TouchableOpacity>
+              )}
+
               {gestor == '1' && (      
                 <TouchableOpacity 
                 style={styles.menu}

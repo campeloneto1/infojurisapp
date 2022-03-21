@@ -11,7 +11,7 @@ import styles from './styles';
 const cpfmask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.',/\d/, /\d/, /\d/, '-', /\d/, /\d/];
 const cellMask = ['(',/\d/, /\d/,') ', /\d/, ' ', /\d/, /\d/, /\d/,/\d/,'-', /\d/, /\d/, /\d/, /\d/];
 
-export default function EditarUsuario({route}) {
+export default function EditarTribunal({route}) {
   const navigation = useNavigation(); 
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');

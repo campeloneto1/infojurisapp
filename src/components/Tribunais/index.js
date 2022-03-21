@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import Itens from './Itens/';
 import styles from './styles';
 
-export default function Usuarios() {
+export default function Tribunais() {
   const navigation = useNavigation(); 
   const [tribunais, setTribunais] = useState([]);
 

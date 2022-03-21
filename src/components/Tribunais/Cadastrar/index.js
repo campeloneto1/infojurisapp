@@ -8,10 +8,11 @@ import * as SecureStore from 'expo-secure-store';
 import * as env from '../../../environments/';
 import Toast from 'react-native-toast-message';
 import styles from './styles';
+import * as request from '../../../requests/';
 const cpfmask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.',/\d/, /\d/, /\d/, '-', /\d/, /\d/];
 const cellMask = ['(',/\d/, /\d/,') ', /\d/, ' ', /\d/, /\d/, /\d/,/\d/,'-', /\d/, /\d/, /\d/, /\d/];
 
-export default function CadastrarUsuario() {
+export default function CadastrarTribunal() {
   const navigation = useNavigation(); 
   const [form, setForm] = useState([]);
 
@@ -24,14 +25,13 @@ export default function CadastrarUsuario() {
   );
 
   function clear(){
-    setForm(null);
+    setForm([]);
   
       
   }
 
 
   async function cadastrar(){    
-    //console.log(checkbox);
     let result = await  SecureStore.getItemAsync('token');    
     
       fetch(env.default.url+'tribunais',{
@@ -64,15 +64,8 @@ export default function CadastrarUsuario() {
       .catch((error) => {
         //console.error(error);
       });
-    
-     
-   
   }
-/* 
- <View style={styles.containerNome}>
-            <Text style={styles.nome}>Editar Cliente</Text>
-          </View>
-*/
+
   return (
     <SafeAreaView style={styles.container} onPress={Keyboard.dismiss}>       
         <View style={styles.containerTitle}>  
@@ -94,7 +87,7 @@ export default function CadastrarUsuario() {
                 value={form.nome}
                 placeholder="Nome" 
                 keyboardType="default"
-                onChangeText={text => form.nome =  text}
+                onChangeText={text => {form.nome =  text}}
               />   
             
               <MaskInput 
@@ -109,7 +102,7 @@ export default function CadastrarUsuario() {
 
                 <TextInput 
                 style={styles.input} 
-                value={email}
+                value={form.email}
                 placeholder="E-mail" 
                 keyboardType="email-address"
                 onChangeText={text => form.email =  text}
@@ -117,7 +110,7 @@ export default function CadastrarUsuario() {
       
 
                 <TouchableOpacity 
-                      disabled={!form.nome || !form.telefone1 || !form.email }
+                      //disabled={!form.nome || !form.telefone1 || !form.email }
                       style={styles.button}     
                       onPress={()=> cadastrar()}   
                       >
